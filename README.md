@@ -6,5 +6,5 @@ Sahabat Ternak  </br>
 Ketua Kelompok:  
 Anggota 1:  </br>
 Anggota 2:  </br>
-Anggota 3:  </br>
+Anggota 3:  Natanael Sebastian Simanjuntak-24/542676/TK/60273</br>
 Anggota 4:  </br>
