@@ -5,6 +5,6 @@ Website/Aplikasi untuk deteksi penyakit ternak menggunakan kecerdasan buatan (co
 Sahabat Ternak  </br>
 Ketua Kelompok:  
 Anggota 1:  </br>
-Anggota 2:  </br>
+Anggota 2: Palupi Fitria Ningrum - 24/540125/TK/59904 </br>
 Anggota 3:  </br>
 Anggota 4:  </br>
