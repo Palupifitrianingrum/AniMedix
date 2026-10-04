@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Consultation, ChatMessage, Payment
+
+admin.site.register(Consultation)
+admin.site.register(ChatMessage)
+admin.site.register(Payment)

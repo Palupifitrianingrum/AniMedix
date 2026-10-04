@@ -2,16 +2,16 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_USER: app
-      POSTGRES_PASSWORD: app
-      POSTGRES_DB: app
+      POSTGRES_USER: animedix
+      POSTGRES_PASSWORD: animedix
+      POSTGRES_DB: animedix
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
   backend:
     build: ./backend
     environment:
-      DATABASE_URL: postgres://app:app@db:5432/app
+      DATABASE_URL: postgres://animedix:animedix@db:5432/animedix
       PORT: "4000"
     ports:
       - "4000:4000"
