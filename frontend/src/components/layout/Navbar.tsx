@@ -17,6 +17,7 @@ import {
   ChevronDown,
   FolderKanban,
   ClipboardList,
+  Settings,
 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { ConfirmModal } from "@/components/ui/Modal";
@@ -202,6 +203,14 @@ export default function Navbar({
                           <ClipboardList className="w-4 h-4 text-slate-400" />
                           <span>Riwayat Pemeriksaan</span>
                         </Link>
+                        <Link
+                          href="/pengaturan"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 hover:text-teal-dark transition-colors"
+                        >
+                          <Settings className="w-4 h-4 text-slate-400" />
+                          <span>Setting</span>
+                        </Link>
                       </div>
 
                       <div className="pt-2 mt-2 border-t border-slate-100">
@@ -284,6 +293,14 @@ export default function Navbar({
                     </div>
                     <span className="text-xs text-slate-500 font-body">Masuk</span>
                   </div>
+                  <Link
+                    href="/pengaturan"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 p-3 rounded-2xl border border-slate-200 bg-white text-teal-dark font-body font-bold text-sm hover:bg-slate-50"
+                  >
+                    <Settings className="w-4 h-4 text-teal-base" />
+                    <span>Setting / Pengaturan</span>
+                  </Link>
                   <button
                     type="button"
                     onClick={() => {

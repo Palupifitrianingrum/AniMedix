@@ -21,6 +21,8 @@ import {
   Camera,
   ChevronDown,
   LogOut,
+  Settings,
+  Home,
 } from "lucide-react";
 import { ConfirmModal } from "@/components/ui/Modal";
 
@@ -203,24 +205,38 @@ export default function DashboardPeternakPage() {
                     <p className="font-bold text-teal-dark">{displayName}</p>
                     <p className="text-slate-500 truncate">{user?.email || "prabowo@gmail.com"}</p>
                   </div>
-                  <Link
-                    href="/"
-                    onClick={() => setUserDropdownOpen(false)}
-                    className="block px-3 py-2 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50"
-                  >
-                    Beranda Utama
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUserDropdownOpen(false);
-                      setShowLogoutModal(true);
-                    }}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-semantic-error hover:bg-red-50 text-sm font-bold transition-colors cursor-pointer text-left"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span>Keluar (Log Out)</span>
-                  </button>
+                  <div className="flex flex-col gap-1 text-sm font-bold text-slate-700">
+                    <Link
+                      href="/"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-50 hover:text-teal-dark transition-colors"
+                    >
+                      <Home className="w-4 h-4 text-slate-400" />
+                      <span>Beranda Utama</span>
+                    </Link>
+                    <Link
+                      href="/pengaturan"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-50 hover:text-teal-dark transition-colors"
+                    >
+                      <Settings className="w-4 h-4 text-slate-400" />
+                      <span>Setting</span>
+                    </Link>
+                  </div>
+
+                  <div className="pt-1.5 mt-1.5 border-t border-slate-100">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setUserDropdownOpen(false);
+                        setShowLogoutModal(true);
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-semantic-error hover:bg-red-50 text-sm font-bold transition-colors cursor-pointer text-left"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>Keluar (Log Out)</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
