@@ -188,6 +188,14 @@ export default function Navbar({
                           <span>Dashboard Peternak</span>
                         </Link>
                         <Link
+                          href="/profil"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 hover:text-teal-dark transition-colors"
+                        >
+                          <User className="w-4 h-4 text-slate-400" />
+                          <span>Profil Saya</span>
+                        </Link>
+                        <Link
                           href="/ternak"
                           onClick={() => setUserDropdownOpen(false)}
                           className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 hover:text-teal-dark transition-colors"

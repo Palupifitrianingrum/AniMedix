@@ -15,9 +15,9 @@ export default function StatCard({
   className,
 }: StatCardProps) {
   const variantStyles = {
-    teal: "bg-teal-tint border-teal-base/20 text-teal-base",
-    olive: "bg-olive-wash border-olive-base/20 text-olive-dark",
-    orange: "bg-[#fff7ed] border-[#fed7aa] text-[#ea580c]",
+    teal: "bg-[#ddf2f5] border-[#bee2e7] text-[#1b4e54]",
+    olive: "bg-[#edf3d7] border-[#d9e5b2] text-[#4f6b21]",
+    orange: "bg-[#fee4cb] border-[#fdcb9c] text-[#bf5a15]",
   };
 
   return (
