@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   Stethoscope,
@@ -13,7 +13,13 @@ import {
   User,
   UserPlus,
   BookOpen,
+  LogOut,
+  ChevronDown,
+  FolderKanban,
+  ClipboardList,
 } from "lucide-react";
+import { useAuthStore } from "@/store/useAuthStore";
+import { ConfirmModal } from "@/components/ui/Modal";
 
 export interface NavbarProps {
   isLoggedIn?: boolean;
@@ -23,15 +29,50 @@ export interface NavbarProps {
 }
 
 export default function Navbar({
-  isLoggedIn = false,
-  userName = "Prabowo",
+  isLoggedIn: propIsLoggedIn,
+  userName: propUserName,
   variant = "white",
   className,
 }: NavbarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = React.useState(false);
+  const [showLogoutModal, setShowLogoutModal] = React.useState(false);
 
-  // Link navigasi (Fitur Utama dihapus sesuai permintaan pengguna)
+  const { isLoggedIn: storeIsLoggedIn, user, logout } = useAuthStore();
+
+  const isLoggedIn =
+    propIsLoggedIn !== undefined ? propIsLoggedIn : storeIsLoggedIn;
+  const userName =
+    propUserName || (user?.full_name ? user.full_name.split(" ")[0] : "Prabowo");
+  const fullName = user?.full_name || "Prabowo Subianto";
+
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setUserDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = async () => {
+    setShowLogoutModal(false);
+    setUserDropdownOpen(false);
+    setMobileMenuOpen(false);
+    await logout();
+    router.push("/");
+  };
+
+  // Link navigasi (Fitur Utama dihapus sesuai permintaan)
   const navLinks = [
     {
       label: "Tanya Dokter",
@@ -55,11 +96,8 @@ export default function Navbar({
     },
   ];
 
-  /* -------------------------------------------------------------
-     Varian White (Tampilan Sesuai Gambar: Top Gradient + White Bar)
-  ------------------------------------------------------------- */
-  if (variant === "white") {
-    return (
+  return (
+    <>
       <header className={cn("w-full sticky top-0 z-50 shadow-xs", className)}>
         {/* 1. Top Decorative Gradient Bar */}
         <div className="w-full h-7 bg-gradient-to-r from-[#113235] via-[#1d5757] via-50% to-[#668b39]" />
@@ -105,15 +143,83 @@ export default function Navbar({
             {/* Right: Auth / User Profile */}
             <div className="hidden sm:flex items-center gap-4">
               {isLoggedIn ? (
-                <Link
-                  href="/profil"
-                  className="flex items-center gap-2.5 bg-slate-100 hover:bg-teal-tint text-teal-dark px-4 py-2 rounded-full font-display text-sm transition-all shadow-xs"
-                >
-                  <div className="w-6 h-6 rounded-full bg-slate-300 flex items-center justify-center text-teal-dark">
-                    <User className="w-4 h-4" />
-                  </div>
-                  <span>{userName}</span>
-                </Link>
+                /* User Profile Pill with Interactive Dropdown */
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    type="button"
+                    onClick={() => setUserDropdownOpen((prev) => !prev)}
+                    className="flex items-center gap-2.5 bg-slate-100 hover:bg-teal-tint text-teal-dark px-4 py-2 rounded-full font-display text-sm transition-all shadow-xs cursor-pointer select-none"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-slate-300 flex items-center justify-center text-teal-dark">
+                      <User className="w-4 h-4" />
+                    </div>
+                    <span>{userName}</span>
+                    <ChevronDown
+                      className={cn(
+                        "w-4 h-4 text-slate-400 transition-transform duration-200",
+                        userDropdownOpen && "rotate-180"
+                      )}
+                    />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {userDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-64 bg-white rounded-3xl shadow-2xl border border-slate-100 p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                      <div className="p-3 bg-slate-50 rounded-2xl mb-2 border border-slate-100">
+                        <p className="font-display text-teal-dark text-base truncate">
+                          {fullName}
+                        </p>
+                        <p className="text-xs text-slate-500 font-body truncate">
+                          {user?.email || "prabowosubianto@gmail.com"}
+                        </p>
+                        <span className="inline-block mt-1.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-body">
+                          Peternak Terverifikasi
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col gap-1 text-sm font-body font-bold text-slate-700">
+                        <Link
+                          href="/dashboard"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 hover:text-teal-dark transition-colors"
+                        >
+                          <FolderKanban className="w-4 h-4 text-teal-base" />
+                          <span>Dashboard Peternak</span>
+                        </Link>
+                        <Link
+                          href="/ternak"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 hover:text-teal-dark transition-colors"
+                        >
+                          <FolderKanban className="w-4 h-4 text-slate-400" />
+                          <span>Daftar Hewan Ternak</span>
+                        </Link>
+                        <Link
+                          href="/riwayat"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 hover:text-teal-dark transition-colors"
+                        >
+                          <ClipboardList className="w-4 h-4 text-slate-400" />
+                          <span>Riwayat Pemeriksaan</span>
+                        </Link>
+                      </div>
+
+                      <div className="pt-2 mt-2 border-t border-slate-100">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setUserDropdownOpen(false);
+                            setShowLogoutModal(true);
+                          }}
+                          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-semantic-error hover:bg-red-50 text-sm font-body font-bold transition-colors cursor-pointer text-left"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span>Keluar (Log Out)</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <div className="flex items-center gap-4">
                   <Link
@@ -170,17 +276,26 @@ export default function Navbar({
 
             <div className="pt-3 border-t border-slate-100 flex flex-col gap-2.5">
               {isLoggedIn ? (
-                <Link
-                  href="/profil"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between bg-slate-100 px-4 py-2.5 rounded-2xl font-display text-sm text-teal-dark"
-                >
-                  <div className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-teal-base" />
-                    <span>Profil ({userName})</span>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between bg-slate-100 px-4 py-3 rounded-2xl font-display text-sm text-teal-dark">
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4 text-teal-base" />
+                      <span>{fullName}</span>
+                    </div>
+                    <span className="text-xs text-slate-500 font-body">Masuk</span>
                   </div>
-                  <span className="text-xs text-slate-500 font-body">Buka</span>
-                </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setShowLogoutModal(true);
+                    }}
+                    className="flex items-center justify-center gap-2 p-3 rounded-2xl border border-red-200 bg-red-50 text-semantic-error font-body font-bold text-sm cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Keluar (Log Out)</span>
+                  </button>
+                </div>
               ) : (
                 <div className="grid grid-cols-2 gap-3">
                   <Link
@@ -204,92 +319,18 @@ export default function Navbar({
           </div>
         )}
       </header>
-    );
-  }
 
-  /* -------------------------------------------------------------
-     Varian Dark (Pill Teal Gelap untuk Inner Dashboard / Konsultasi)
-  ------------------------------------------------------------- */
-  return (
-    <header className={cn("w-full px-4 sm:px-6 lg:px-8 pt-4 pb-2 z-40", className)}>
-      <nav className="max-w-7xl mx-auto bg-teal-dark text-white rounded-3xl px-6 py-3.5 shadow-xl flex items-center justify-between transition-all">
-        {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-2xl bg-white flex items-center justify-center text-teal-base shadow-sm group-hover:scale-105 transition-transform">
-            <span className="text-xl">🐾</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-display text-2xl tracking-tight text-white leading-none">
-              AniMedix
-            </span>
-            <span className="text-[10px] uppercase tracking-widest text-teal-accent font-body font-bold">
-              ANIMAL HEALTHCARE
-            </span>
-          </div>
-        </Link>
-
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-7">
-          {navLinks.map((link) => {
-            const isActive = pathname.startsWith(link.href);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "flex items-center gap-2 text-sm font-body font-bold transition-colors hover:text-teal-accent",
-                  isActive ? "text-teal-accent" : "text-slate-100"
-                )}
-              >
-                {link.icon}
-                <span>{link.label}</span>
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* User Pill */}
-        <div className="hidden md:flex items-center gap-3">
-          {isLoggedIn ? (
-            <Link
-              href="/profil"
-              className="flex items-center gap-2.5 bg-white text-teal-dark hover:bg-teal-tint px-4 py-2 rounded-full font-display text-sm shadow-sm transition-all hover:scale-105 active:scale-95"
-            >
-              <div className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-teal-dark">
-                <User className="w-4 h-4" />
-              </div>
-              <span>{userName}</span>
-            </Link>
-          ) : (
-            <div className="flex items-center gap-3">
-              <Link
-                href="/login"
-                className="text-white hover:text-teal-accent font-body font-bold text-sm px-3 py-1.5"
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                className="bg-olive-base hover:bg-olive-dark text-white px-5 py-2 rounded-full font-body font-bold text-sm"
-              >
-                Daftar Sekarang
-              </Link>
-            </div>
-          )}
-        </div>
-
-        {/* Mobile Hamburger */}
-        <div className="flex md:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="p-2 text-white hover:text-teal-accent transition-colors focus:outline-none"
-            aria-label="Toggle Menu"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </nav>
-    </header>
+      {/* Logout Confirmation Modal */}
+      <ConfirmModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={handleLogout}
+        title="Are you sure you want to Log Out?"
+        description="Anda harus login kembali untuk mengakses data hewan dan riwayat konsultasi."
+        confirmText="Log Out"
+        cancelText="Cancel"
+        isDestructive={true}
+      />
+    </>
   );
 }

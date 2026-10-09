@@ -15,6 +15,8 @@ import {
   LogOut,
 } from "lucide-react";
 
+import { useAuthStore } from "@/store/useAuthStore";
+
 export interface FarmerSidebarProps {
   userName?: string;
   userRole?: string;
@@ -23,13 +25,17 @@ export interface FarmerSidebarProps {
 }
 
 export default function FarmerSidebar({
-  userName = "Prabowo",
-  userRole = "Peternak Terverifikasi",
+  userName: propUserName,
+  userRole: propUserRole,
   className,
 }: FarmerSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [showLogoutModal, setShowLogoutModal] = React.useState(false);
+  const { user, logout } = useAuthStore();
+
+  const userName = propUserName || user?.full_name || "Prabowo";
+  const userRole = propUserRole || (user?.role === "peternak" ? "Peternak Terverifikasi" : "Pengguna");
 
   const menuItems = [
     {
@@ -64,8 +70,9 @@ export default function FarmerSidebar({
     },
   ];
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setShowLogoutModal(false);
+    await logout();
     router.push("/login");
   };
 

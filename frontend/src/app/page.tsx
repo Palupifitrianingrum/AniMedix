@@ -110,7 +110,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-surface-bg text-teal-dark selection:bg-teal-accent selection:text-white">
       {/* 1. Header / Navbar */}
-      <Navbar isLoggedIn={false} />
+      <Navbar />
 
       {/* 2. Hero Section */}
       <section className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24">
@@ -631,7 +631,7 @@ export default function LandingPage() {
                 Daftar Akun Sekarang
               </Button>
             </Link>
-            <Link href="/profil">
+            <Link href="/dashboard">
               <Button
                 variant="outline"
                 shape="pill"
