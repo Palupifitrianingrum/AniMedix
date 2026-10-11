@@ -38,11 +38,8 @@ export default function ScanLayout({ children }: { children: React.ReactNode }) 
             </div>
           </Link>
 
-          <div className="flex items-center gap-2">
-            <span className="text-xs bg-white/10 text-teal-tint px-3 py-1 rounded-full font-bold border border-white/10 hidden sm:inline-block">
-              Focused Mode
-            </span>
-          </div>
+          {/* Spacer kanan untuk menjaga keseimbangan posisi logo di tengah */}
+          <div className="w-20 hidden sm:block" aria-hidden="true" />
         </div>
       </header>
 
