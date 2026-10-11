@@ -13,6 +13,7 @@ import {
   Stethoscope,
 } from "lucide-react";
 import { Button, Modal } from "@/components/ui";
+import { useScanStore } from "@/store/useScanStore";
 
 interface ExaminationRecord {
   id: string;
@@ -30,8 +31,26 @@ interface ExaminationRecord {
 export default function RiwayatPemeriksaanPage() {
   const [filterType, setFilterType] = React.useState<"all" | "scan" | "consultation">("all");
   const [selectedRecord, setSelectedRecord] = React.useState<ExaminationRecord | null>(null);
+  const scanHistory = useScanStore((s) => s.history);
 
-  const records: ExaminationRecord[] = [
+  const dynamicScanRecords: ExaminationRecord[] = scanHistory.map((item) => ({
+    id: item.id,
+    type: "scan",
+    title: `Scan AI: ${item.diagnosis.diseaseName}`,
+    date: new Date(item.createdAt).toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }),
+    diagnosis: `${item.diagnosis.diseaseName} (${item.diagnosis.confidence}% Akurasi)`,
+    doctorOrMethod: "AniMedix Vision AI (Model v2)",
+    statusText: "Selesai",
+    statusVariant: "success",
+    notes: item.diagnosis.summary,
+    treatment: item.diagnosis.firstAidActions.join(" "),
+  }));
+
+  const defaultRecords: ExaminationRecord[] = [
     {
       id: "REC-001",
       type: "scan",
@@ -88,7 +107,9 @@ export default function RiwayatPemeriksaanPage() {
     },
   ];
 
-  const filteredRecords = records.filter((r) => {
+  const allRecords = [...dynamicScanRecords, ...defaultRecords];
+
+  const filteredRecords = allRecords.filter((r) => {
     if (filterType === "all") return true;
     return r.type === filterType;
   });
