@@ -12,8 +12,8 @@ export default function LoginPage() {
   const router = useRouter();
   const { login, isLoading, error, clearError, isLoggedIn, user } = useAuthStore();
 
-  const [emailOrUsername, setEmailOrUsername] = React.useState("prabowo");
-  const [password, setPassword] = React.useState("password123");
+  const [emailOrUsername, setEmailOrUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   // Jika sudah login, langsung redirect ke dashboard sesuai role
   React.useEffect(() => {
@@ -77,44 +77,9 @@ export default function LoginPage() {
         {/* Right Side: Form Masuk Panel (7 cols) */}
         <div className="md:col-span-7 bg-[#edf4e8]/80 p-8 sm:p-12 flex flex-col justify-center">
           <div className="w-full max-w-md mx-auto">
-            <h2 className="font-display text-3xl sm:text-4xl text-teal-dark text-center mb-6 tracking-tight">
+            <h2 className="font-display text-3xl sm:text-4xl text-teal-dark text-center mb-8 tracking-tight">
               Masuk
             </h2>
-
-            {/* Quick Demo Switcher */}
-            <div className="mb-6 p-2 rounded-2xl bg-white/70 border border-slate-200/60 flex items-center justify-between gap-2 text-xs">
-              <span className="text-slate-500 font-semibold pl-2">Role Demo:</span>
-              <div className="flex gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEmailOrUsername("prabowo");
-                    setPassword("password123");
-                  }}
-                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
-                    emailOrUsername === "prabowo"
-                      ? "bg-olive-base text-white shadow-xs"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  🌾 Peternak
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEmailOrUsername("admin");
-                    setPassword("admin123");
-                  }}
-                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
-                    emailOrUsername === "admin"
-                      ? "bg-teal-dark text-white shadow-xs"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  🛡️ Admin
-                </button>
-              </div>
-            </div>
 
             {/* Error Notification Alert */}
             {error && (
