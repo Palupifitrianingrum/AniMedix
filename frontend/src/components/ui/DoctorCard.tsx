@@ -11,7 +11,8 @@ export interface DoctorCardProps {
   specialization: string;
   rating: number;
   experienceYears: number;
-  consultationCount: number;
+  /** Opsional: tidak semua dokter punya catatan jumlah konsultasi. */
+  consultationCount?: number;
   fee: number;
   isOnline: boolean;
   avatarUrl?: string;
@@ -83,8 +84,12 @@ export default function DoctorCard({
             </span>
             <span>•</span>
             <span>Pengalaman {experienceYears} Tahun</span>
-            <span>•</span>
-            <span>{consultationCount.toLocaleString()}+ Konsultasi Selesai</span>
+            {consultationCount !== undefined && (
+              <>
+                <span>•</span>
+                <span>{consultationCount.toLocaleString("id-ID")}+ Konsultasi Selesai</span>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -105,9 +110,11 @@ export default function DoctorCard({
           shape="rounded"
           size="md"
           className="px-6 py-2.5 text-sm"
+          disabled={!isOnline}
+          title={isOnline ? undefined : "Dokter sedang offline"}
           onClick={() => onConsult && onConsult(id)}
         >
-          Konsultasi Sekarang
+          {isOnline ? "Konsultasi Sekarang" : "Sedang Offline"}
         </Button>
       </div>
     </div>

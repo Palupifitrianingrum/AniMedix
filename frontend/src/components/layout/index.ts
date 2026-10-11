@@ -7,3 +7,5 @@ export { default as FarmerSidebar } from "./FarmerSidebar";
 export type { FarmerSidebarProps } from "./FarmerSidebar";
 
 export { default as MobileNav } from "./MobileNav";
+
+export { default as MarketingNavbar } from "./MarketingNavbar";

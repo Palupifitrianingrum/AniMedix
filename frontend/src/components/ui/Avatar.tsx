@@ -12,7 +12,9 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 function getInitials(name?: string): string {
   if (!name) return "?";
-  const parts = name.trim().split(/\s+/);
+  // Abaikan gelar di depan nama (Dr., dr., drh., Ir.) dan gelar di belakang koma.
+  const clean = name.replace(/^((Dr|dr|drh|Ir)\.\s*)+/i, "").split(",")[0];
+  const parts = (clean.trim() || name.trim()).split(/\s+/);
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   if (parts.length === 2)
     return (parts[0][0] + parts[1][0]).toUpperCase();

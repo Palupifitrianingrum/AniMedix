@@ -8,18 +8,10 @@ import { MapPin, User, Edit3, CheckCircle2, ShieldCheck, Calendar, Phone } from 
 export default function ProfilePage() {
   const { user, setUser } = useAuthStore();
 
-  const [fullName, setFullName] = React.useState(
-    user?.full_name || "Prabowo Subianto"
-  );
-  const [email, setEmail] = React.useState(
-    user?.email || "prabowosubianto@gmail.com"
-  );
-  const [phone, setPhone] = React.useState(
-    user?.phone || "+62 812-3456-7890"
-  );
-  const [address, setAddress] = React.useState(
-    user?.address || "Bojong Koneng, Babakan Madang, Bogor"
-  );
+  const fullName = user?.full_name || "Prabowo Subianto";
+  const email = user?.email || "prabowosubianto@gmail.com";
+  const phone = user?.phone || "+62 812-3456-7890";
+  const address = user?.address || "Bojong Koneng, Babakan Madang, Bogor";
   const [bio, setBio] = React.useState(
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In et mollis mauris. Ut vehicula, nisl sit amet tincidunt sodales, velit ipsum rhoncus dolor, at egestas sapien elit in orci. Donec ac elit egestas, commodo orci nec, convallis eros. Mauris vel tellus nec felis ornare imperdiet. Aenean porta quis nunc vitae tincidunt. Maecenas eget ipsum orci. Morbi sed varius odio. Aliquam faucibus nisl at est congue pretium. Nulla facilisi. Nam mollis lectus nunc, id commodo enim luctus at. Nullam massa elit, faucibus in eros ac, euismod gravida enim. Phasellus nisl lorem, fringilla vitae bibendum quis, vulputate ac lorem. Nam vehicula consectetur est eget volutpat. Vivamus elementum, sem ac fringilla sollicitudin, ex quam blandit tortor, in efficitur risus eros ultrices tellus. Donec vel nulla eu sem varius commodo. Etiam placerat augue ac lacus convallis aliquam."
   );
@@ -34,14 +26,6 @@ export default function ProfilePage() {
   // Status Modal
   const [isSuccessModalOpen, setIsSuccessModalOpen] = React.useState(false);
 
-  // Sync if user in store changes
-  React.useEffect(() => {
-    if (user?.full_name) setFullName(user.full_name);
-    if (user?.email) setEmail(user.email);
-    if (user?.phone) setPhone(user.phone);
-    if (user?.address) setAddress(user.address);
-  }, [user]);
-
   const handleOpenEdit = () => {
     setEditName(fullName);
     setEditPhone(phone);
@@ -52,9 +36,6 @@ export default function ProfilePage() {
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
-    setFullName(editName);
-    setPhone(editPhone);
-    setAddress(editAddress);
     setBio(editBio);
 
     if (user) {
@@ -63,6 +44,15 @@ export default function ProfilePage() {
         full_name: editName,
         phone: editPhone,
         address: editAddress,
+      });
+    } else {
+      setUser({
+        id: "mock-1",
+        full_name: editName,
+        email: email,
+        phone: editPhone,
+        address: editAddress,
+        role: "peternak",
       });
     }
 

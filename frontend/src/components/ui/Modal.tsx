@@ -3,7 +3,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import Button from "./Button";
-import { Check, X } from "lucide-react";
+// Ikon lucide lama untuk StatusModal, diganti ikon Figma di public/icons:
+// import { Check, X } from "lucide-react";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -79,6 +80,17 @@ export function StatusModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
+      {/* Ikon & warna mengikuti Figma info-pembayaran.png (Frame 2 & Frame 3) */}
+      <div className="w-32 h-32 rounded-full bg-[#d9d9d9] flex items-center justify-center mb-6">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={isSuccess ? "/icons/check-icon.svg" : "/icons/cross-icon.svg"}
+          alt=""
+          aria-hidden="true"
+          className={isSuccess ? "w-[58%] h-[58%] object-contain" : "w-[48%] h-[48%] object-contain"}
+        />
+      </div>
+      {/* Versi lama (ikon lucide hijau/merah):
       <div className="w-24 h-24 rounded-full bg-slate-200 flex items-center justify-center mb-6">
         {isSuccess ? (
           <Check className="w-14 h-14 text-emerald-500 stroke-[3.5]" />
@@ -86,18 +98,19 @@ export function StatusModal({
           <X className="w-14 h-14 text-rose-500 stroke-[3.5]" />
         )}
       </div>
+      */}
 
-      <h3 className="font-display text-2xl text-teal-dark mb-3 tracking-tight">
+      <h3 className="font-body font-bold text-[28px] text-black mb-3 tracking-tight leading-tight">
         {title}
       </h3>
-      <p className="font-body text-slate-600 text-base mb-8 max-w-xs leading-relaxed">
+      <p className="font-body font-bold text-black text-sm mb-7 max-w-[240px] leading-relaxed">
         {description}
       </p>
 
       <Button
         variant="primary"
         shape="rounded"
-        className="w-full py-3 text-base"
+        className="min-w-[154px] h-10 px-8 py-0 rounded-lg text-sm bg-[#6e944b] hover:bg-[#5f8240]"
         onClick={handleAction}
       >
         {actionText}

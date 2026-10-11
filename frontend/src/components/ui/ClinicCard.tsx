@@ -1,4 +1,5 @@
 import * as React from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Badge from "./Badge";
 import Button from "./Button";
@@ -17,13 +18,15 @@ export interface ClinicCardProps {
   name: string;
   address: string;
   isOpen: boolean;
-  distanceKm: number;
+  distanceKm?: number;
   rating: number;
-  reviewCount: number;
+  reviewCount?: number;
   openSchedule: string;
   services: string;
   activeDoctor?: ActiveDoctor;
   mapNavUrl?: string;
+  /** Opsional: tautan ke halaman detail klinik. */
+  detailHref?: string;
   className?: string;
 }
 
@@ -38,6 +41,7 @@ export default function ClinicCard({
   services,
   activeDoctor,
   mapNavUrl,
+  detailHref,
   className,
 }: ClinicCardProps) {
   return (
@@ -57,15 +61,18 @@ export default function ClinicCard({
           >
             {isOpen ? "Buka Hari Ini" : "Tutup"}
           </Badge>
-          <span className="text-xs font-semibold text-slate-500 font-body">
-            Jarak: {distanceKm} km
-          </span>
+          {distanceKm !== undefined && (
+            <span className="text-xs font-semibold text-slate-500 font-body">
+              Jarak: {String(distanceKm).replace(".", ",")} km
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-1.5 text-xs font-bold text-amber-600 font-body">
           <Star className="w-4 h-4 fill-amber-400 stroke-amber-400" />
           <span>
-            {rating.toFixed(1)} ({reviewCount} ulasan)
+            {String(rating).replace(".", ",")}
+            {reviewCount !== undefined && ` (${reviewCount} ulasan)`}
           </span>
         </div>
       </div>
@@ -116,6 +123,15 @@ export default function ClinicCard({
                 </span>
               </div>
             </div>
+          )}
+
+          {detailHref && (
+            <Link
+              href={detailHref}
+              className="self-start mt-1 inline-flex items-center rounded-xl border border-border-hairline bg-white px-4 py-2 text-xs font-bold text-teal-dark hover:bg-slate-50 transition-colors"
+            >
+              Lihat detail klinik
+            </Link>
           )}
         </div>
 
