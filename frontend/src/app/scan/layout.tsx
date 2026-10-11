@@ -9,30 +9,32 @@ export const metadata: Metadata = {
   description: "Pindai bagian tubuh hewan yang bergejala untuk identifikasi instan menggunakan AniMedix Vision AI.",
 };
 
-/* Shell 4: Focused Mode (guidline.md 3.1) - Header minimalis tanpa distraksi */
 export default function ScanLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#0d1619] text-white font-body selection:bg-teal-accent selection:text-white flex flex-col">
-      {/* Minimalist Focused Header */}
-      <header className="w-full border-b border-white/10 bg-[#132225]/80 backdrop-blur-md sticky top-0 z-40">
+    <div className="min-h-screen bg-surface-bg text-teal-dark font-body selection:bg-teal-accent selection:text-white flex flex-col">
+      {/* Top Decorative Gradient Bar (Konsisten dengan Landing Page) */}
+      <div className="w-full h-2.5 bg-gradient-to-r from-[#113235] via-[#1d5757] via-50% to-[#668b39]" />
+
+      {/* Header Bersih & Terang Sesuai Landing Page */}
+      <header className="w-full border-b border-border-hairline bg-white/95 backdrop-blur-md sticky top-0 z-40 shadow-2xs">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 text-sm font-body font-bold text-slate-300 hover:text-white transition-colors py-2 px-3 rounded-xl hover:bg-white/5"
+            className="inline-flex items-center gap-2 text-sm font-body font-bold text-slate-600 hover:text-teal-dark transition-colors py-2 px-3 rounded-xl hover:bg-slate-100"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Kembali</span>
           </Link>
 
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#21abb8] to-[#7d9e43] flex items-center justify-center text-white text-base shadow-sm">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#21abb8] to-[#7d9e43] flex items-center justify-center text-white text-base shadow-sm group-hover:scale-105 transition-transform">
               🐾
             </div>
             <div className="flex flex-col">
-              <span className="font-display text-xl tracking-tight text-white leading-none">
+              <span className="font-display text-xl tracking-tight text-teal-dark leading-none">
                 AniMedix
               </span>
-              <span className="text-[9px] uppercase tracking-widest text-teal-accent font-body font-bold mt-0.5 flex items-center gap-1">
+              <span className="text-[9px] uppercase tracking-widest text-teal-base font-body font-bold mt-0.5 flex items-center gap-1">
                 <Sparkles className="w-2.5 h-2.5" /> VISION AI SCANNER
               </span>
             </div>

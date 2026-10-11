@@ -27,11 +27,11 @@ export default function HasilScanPage() {
   if (!result) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-8 text-center max-w-md mx-auto">
-        <div className="w-16 h-16 rounded-full bg-teal-accent/20 text-teal-accent flex items-center justify-center mb-4">
+        <div className="w-16 h-16 rounded-full bg-teal-tint text-teal-base flex items-center justify-center mb-4 shadow-xs">
           <Sparkles className="w-8 h-8" />
         </div>
-        <h2 className="font-display text-2xl text-white mb-2">Belum Ada Hasil Scan</h2>
-        <p className="text-sm text-slate-400 mb-6">
+        <h2 className="font-display text-2xl text-teal-dark mb-2">Belum Ada Hasil Scan</h2>
+        <p className="text-sm text-slate-500 mb-6">
           Silakan ambil foto atau unggah gambar bagian tubuh hewan ternak untuk memulai diagnosis AI.
         </p>
         <Button
@@ -70,20 +70,20 @@ export default function HasilScanPage() {
   return (
     <div className="w-full flex flex-col gap-8 pb-12">
       {/* Top Banner Status */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border-hairline">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-teal-accent/20 text-teal-accent border border-teal-accent/30">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-teal-tint text-teal-base border border-teal-accent/30">
               <Sparkles className="w-3.5 h-3.5" /> Hasil Identifikasi Vision AI
             </span>
             <span className="text-xs text-slate-400 font-mono">
               Ref: {id}
             </span>
           </div>
-          <h1 className="font-display text-2xl sm:text-3xl text-white tracking-tight">
+          <h1 className="font-display text-2xl sm:text-3xl text-teal-dark tracking-tight">
             Laporan Analisis Kesehatan Ternak
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
             Dipindai pada {formattedDate} via {source === "camera" ? "Kamera Langsung" : "Unggah Galeri"}
           </p>
         </div>
@@ -96,9 +96,9 @@ export default function HasilScanPage() {
               resetCurrentScan();
               router.push("/scan");
             }}
-            className="inline-flex items-center justify-center font-bold text-sm px-4 py-2 gap-1.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/25 transition-all shadow-sm active:scale-[0.98] cursor-pointer"
+            className="inline-flex items-center justify-center font-bold text-sm px-4 py-2 gap-1.5 rounded-2xl bg-white hover:bg-slate-50 text-teal-dark border border-slate-200 transition-all shadow-xs active:scale-[0.98] cursor-pointer"
           >
-            <RefreshCw className="w-4 h-4 text-teal-accent" />
+            <RefreshCw className="w-4 h-4 text-teal-base" />
             <span>Scan Ulang</span>
           </button>
           <Link href="/dokter">
@@ -106,7 +106,7 @@ export default function HasilScanPage() {
               variant="teal"
               shape="rounded"
               size="sm"
-              className="shadow-md"
+              className="shadow-sm"
             >
               <Stethoscope className="w-4 h-4 mr-1.5" /> Konsultasi Dokter
             </Button>
@@ -119,7 +119,7 @@ export default function HasilScanPage() {
         {/* Left Column (5 cols): Citra Hasil Scan & Metrik AI */}
         <div className="lg:col-span-5 flex flex-col gap-6">
           {/* Card Gambar dengan Bounding Box Reticle */}
-          <div className="relative rounded-3xl overflow-hidden bg-black border border-white/15 shadow-2xl group">
+          <div className="relative rounded-3xl overflow-hidden bg-black border border-slate-200 shadow-md group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageUrl}
@@ -147,16 +147,16 @@ export default function HasilScanPage() {
 
           {/* KPI Summary Tiles */}
           <div className="grid grid-cols-2 gap-3.5">
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 flex flex-col">
-              <span className="text-xs text-slate-400 font-semibold mb-1">Tingkat Akurasi</span>
-              <span className="font-display text-2xl text-teal-accent">
+            <div className="p-4 rounded-2xl bg-white border border-border-hairline shadow-xs flex flex-col">
+              <span className="text-xs text-slate-500 font-semibold mb-1">Tingkat Akurasi</span>
+              <span className="font-display text-2xl text-teal-base">
                 {diagnosis.confidence}%
               </span>
               <span className="text-[11px] text-slate-400 mt-1">High Confidence Rate</span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 flex flex-col">
-              <span className="text-xs text-slate-400 font-semibold mb-1">Tingkat Risiko</span>
+            <div className="p-4 rounded-2xl bg-white border border-border-hairline shadow-xs flex flex-col">
+              <span className="text-xs text-slate-500 font-semibold mb-1">Tingkat Risiko</span>
               <div className="mt-0.5">
                 <Badge
                   variant={getRiskBadgeVariant(diagnosis.riskLevel) as "success" | "danger" | "warning"}
@@ -174,27 +174,27 @@ export default function HasilScanPage() {
         {/* Right Column (7 cols): Hasil Diagnosis Lengkap & Rekomendasi */}
         <div className="lg:col-span-7 flex flex-col gap-6">
           {/* Card Diagnosis Utama */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-[#132225] border border-white/10 shadow-xl flex flex-col gap-4">
+          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-border-hairline shadow-xs flex flex-col gap-4">
             <div>
               <div className="flex items-center gap-3">
-                <h2 className="font-display text-2xl sm:text-3xl text-white tracking-tight">
+                <h2 className="font-display text-2xl sm:text-3xl text-teal-dark tracking-tight">
                   {diagnosis.diseaseName}
                 </h2>
               </div>
-              <p className="text-sm font-serif italic text-teal-accent mt-0.5">
+              <p className="text-sm font-serif italic text-teal-base mt-0.5">
                 {diagnosis.scientificName}
               </p>
             </div>
 
-            <p className="font-body text-sm sm:text-base text-slate-300 leading-relaxed bg-white/5 p-4 rounded-2xl border border-white/5">
+            <p className="font-body text-sm sm:text-base text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-200/70">
               {diagnosis.summary}
             </p>
           </div>
 
           {/* Gejala yang Terdeteksi */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-[#132225] border border-white/10 shadow-xl flex flex-col gap-4">
-            <h3 className="font-display text-xl text-white flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-teal-accent" />
+          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-border-hairline shadow-xs flex flex-col gap-4">
+            <h3 className="font-display text-xl text-teal-dark flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-teal-base" />
               <span>Karakteristik & Gejala Klinis Terdeteksi</span>
             </h3>
 
@@ -202,9 +202,9 @@ export default function HasilScanPage() {
               {diagnosis.detectedSymptoms.map((symptom, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/5 text-sm text-slate-300"
+                  className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/70 text-sm text-slate-700"
                 >
-                  <span className="w-5 h-5 rounded-full bg-teal-accent/20 text-teal-accent flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
+                  <span className="w-5 h-5 rounded-full bg-teal-tint text-teal-base flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
                     {idx + 1}
                   </span>
                   <span>{symptom}</span>
@@ -214,9 +214,9 @@ export default function HasilScanPage() {
           </div>
 
           {/* Rekomendasi Pertolongan Pertama (PENTING) */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-[#132225] border border-olive-light/20 shadow-xl flex flex-col gap-4">
-            <h3 className="font-display text-xl text-[#9bb859] flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-[#9bb859]" />
+          <div className="p-6 sm:p-8 rounded-3xl bg-white border border-olive-base/30 shadow-xs flex flex-col gap-4">
+            <h3 className="font-display text-xl text-olive-dark flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-olive-base" />
               <span>Rekomendasi Pertolongan Pertama Darurat</span>
             </h3>
 
@@ -224,9 +224,9 @@ export default function HasilScanPage() {
               {diagnosis.firstAidActions.map((action, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start gap-3 text-sm text-slate-200"
+                  className="flex items-start gap-3 text-sm text-slate-700"
                 >
-                  <span className="w-2 h-2 rounded-full bg-[#9bb859] mt-2 shrink-0" />
+                  <span className="w-2 h-2 rounded-full bg-olive-base mt-2 shrink-0" />
                   <span className="leading-relaxed">{action}</span>
                 </div>
               ))}
@@ -235,10 +235,10 @@ export default function HasilScanPage() {
 
           {/* Peringatan Khusus / Biosafety */}
           {diagnosis.treatmentWarnings.length > 0 && (
-            <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs sm:text-sm flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 shrink-0 text-amber-400 mt-0.5" />
+            <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 shrink-0 text-amber-600 mt-0.5" />
               <div className="space-y-1">
-                <strong className="block font-bold text-amber-300">Peringatan Biosafety:</strong>
+                <strong className="block font-bold text-amber-900">Peringatan Biosafety:</strong>
                 {diagnosis.treatmentWarnings.map((warn, i) => (
                   <p key={i} className="leading-relaxed">{warn}</p>
                 ))}
@@ -247,7 +247,7 @@ export default function HasilScanPage() {
           )}
 
           {/* Rekomendasi Dokter & Tombol CTA Lanjutan */}
-          <div className="p-6 rounded-3xl bg-gradient-to-r from-[#17383c] to-[#1e4e54] border border-teal-accent/30 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+          <div className="p-6 rounded-3xl bg-gradient-to-r from-[#17383c] to-[#1e4e54] border border-teal-accent/30 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md text-white">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-teal-accent/20 text-teal-accent flex items-center justify-center shrink-0 border border-teal-accent/30">
                 <Stethoscope className="w-6 h-6" />
@@ -269,7 +269,7 @@ export default function HasilScanPage() {
                   variant="primary"
                   shape="rounded"
                   size="md"
-                  className="w-full sm:w-auto bg-[#84a34b] hover:bg-[#72913b] text-white shadow-lg whitespace-nowrap"
+                  className="w-full sm:w-auto bg-[#84a34b] hover:bg-[#72913b] text-white shadow-md whitespace-nowrap"
                 >
                   <span>Konsultasi Sekarang</span>
                   <ArrowRight className="w-4 h-4 ml-1.5" />
@@ -279,19 +279,19 @@ export default function HasilScanPage() {
           </div>
 
           {/* Navigasi Tambahan */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs text-slate-400">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs text-slate-500">
             <Link
               href="/riwayat"
-              className="hover:text-white flex items-center gap-1.5 transition-colors"
+              className="hover:text-teal-dark flex items-center gap-1.5 transition-colors"
             >
-              <FileText className="w-4 h-4 text-slate-500" />
+              <FileText className="w-4 h-4 text-slate-400" />
               <span>Lihat di Riwayat Pemeriksaan</span>
             </Link>
             <Link
               href="/klinik"
-              className="hover:text-white flex items-center gap-1.5 transition-colors"
+              className="hover:text-teal-dark flex items-center gap-1.5 transition-colors"
             >
-              <MapPin className="w-4 h-4 text-slate-500" />
+              <MapPin className="w-4 h-4 text-slate-400" />
               <span>Temukan Klinik Hewan Terdekat</span>
             </Link>
           </div>

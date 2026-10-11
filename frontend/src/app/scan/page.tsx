@@ -231,23 +231,23 @@ export default function ScanPage() {
       {/* Header Title & Mode Switcher Bar */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl sm:text-4xl text-white tracking-tight">
+          <h1 className="font-display text-3xl sm:text-4xl text-teal-dark tracking-tight">
             Scan Your Animal
           </h1>
-          <p className="font-body text-sm sm:text-base text-slate-400 mt-1">
+          <p className="font-body text-sm sm:text-base text-slate-500 mt-1">
             Pindai bagian tubuh hewan yang bergejala untuk identifikasi instan
           </p>
         </div>
 
         {/* Tab Switcher: Kamera vs Galeri */}
-        <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/10 border border-white/10 self-start sm:self-auto backdrop-blur-md">
+        <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-slate-200/70 border border-slate-300/70 self-start sm:self-auto backdrop-blur-md">
           <button
             type="button"
             onClick={() => setMode("camera")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
               mode === "camera"
-                ? "bg-[#21abb8] text-white shadow-md"
-                : "text-slate-300 hover:text-white hover:bg-white/5"
+                ? "bg-[#21abb8] text-white shadow-sm"
+                : "text-slate-600 hover:text-teal-dark hover:bg-white/60"
             }`}
           >
             <Camera className="w-4 h-4" />
@@ -256,10 +256,10 @@ export default function ScanPage() {
           <button
             type="button"
             onClick={() => setMode("gallery")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
               mode === "gallery"
-                ? "bg-[#21abb8] text-white shadow-md"
-                : "text-slate-300 hover:text-white hover:bg-white/5"
+                ? "bg-[#21abb8] text-white shadow-sm"
+                : "text-slate-600 hover:text-teal-dark hover:bg-white/60"
             }`}
           >
             <UploadCloud className="w-4 h-4" />
@@ -415,8 +415,8 @@ export default function ScanPage() {
             onDrop={handleDrop}
             className={`w-full flex-1 min-h-[380px] sm:min-h-[440px] rounded-3xl border-2 border-dashed transition-all flex flex-col items-center justify-center p-8 sm:p-12 text-center relative ${
               isDragging
-                ? "border-teal-accent bg-teal-accent/10"
-                : "border-white/20 bg-white/5 hover:border-white/30"
+                ? "border-teal-accent bg-teal-tint/30"
+                : "border-slate-300 bg-white hover:border-teal-base shadow-xs"
             }`}
           >
             <input
@@ -430,14 +430,14 @@ export default function ScanPage() {
             {!previewUrl ? (
               <div className="flex flex-col items-center max-w-md">
                 {/* Cloud Upload Icon Circle (Sesuai Wireframe) */}
-                <div className="w-20 h-20 rounded-full bg-teal-tint/15 border border-teal-accent/30 text-teal-accent flex items-center justify-center mb-6 shadow-inner">
+                <div className="w-20 h-20 rounded-full bg-teal-tint text-teal-base border border-teal-accent/30 flex items-center justify-center mb-6 shadow-xs">
                   <UploadCloud className="w-10 h-10" />
                 </div>
 
-                <h3 className="font-display text-2xl sm:text-3xl text-white mb-2 tracking-tight">
+                <h3 className="font-display text-2xl sm:text-3xl text-teal-dark mb-2 tracking-tight">
                   Upload Foto Hewan dari Galeri
                 </h3>
-                <p className="font-body text-xs sm:text-sm text-slate-400 mb-8 leading-relaxed max-w-sm">
+                <p className="font-body text-xs sm:text-sm text-slate-500 mb-8 leading-relaxed max-w-sm">
                   Format didukung: JPG, PNG, WEBP. Pastikan fokus gambar jelas dan pencahayaan memadai.
                 </p>
 
@@ -447,7 +447,7 @@ export default function ScanPage() {
                   shape="rounded"
                   size="md"
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-8 py-3 text-base shadow-lg"
+                  className="px-8 py-3 text-base shadow-md"
                 >
                   Pilih Foto
                 </Button>
@@ -455,7 +455,7 @@ export default function ScanPage() {
             ) : (
               /* Preview Gambar yang Dipilih */
               <div className="flex flex-col items-center gap-4 max-w-md w-full">
-                <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden border-2 border-teal-accent shadow-2xl group">
+                <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden border-2 border-teal-base shadow-lg group bg-slate-100">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={previewUrl}
@@ -466,7 +466,7 @@ export default function ScanPage() {
                   <button
                     type="button"
                     onClick={handleRemovePhoto}
-                    className="absolute top-3 right-3 w-9 h-9 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95 cursor-pointer z-10"
+                    className="absolute top-3 right-3 w-9 h-9 rounded-full bg-red-600 hover:bg-red-500 text-white flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95 cursor-pointer z-10"
                     title="Hapus foto ini"
                     aria-label="Hapus foto"
                   >
@@ -474,7 +474,7 @@ export default function ScanPage() {
                   </button>
                 </div>
 
-                <div className="flex items-center gap-2 text-xs text-teal-accent font-bold">
+                <div className="flex items-center gap-2 text-xs text-teal-base font-bold">
                   <Check className="w-4 h-4" />
                   <span className="truncate max-w-[280px]">Foto terpilih: {selectedFile?.name || "Unggahan"}</span>
                 </div>
@@ -484,9 +484,9 @@ export default function ScanPage() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white hover:bg-slate-50 text-teal-dark border border-slate-200 transition-all shadow-xs cursor-pointer"
                   >
-                    <RefreshCw className="w-3.5 h-3.5 text-teal-accent" />
+                    <RefreshCw className="w-3.5 h-3.5 text-teal-base" />
                     <span>Ganti Foto</span>
                   </button>
                 </div>
@@ -500,10 +500,10 @@ export default function ScanPage() {
               type="button"
               disabled={!previewUrl || isAnalyzing}
               onClick={handleStartGalleryAnalysis}
-              className={`w-full sm:w-auto min-w-[280px] px-10 py-4 rounded-2xl font-display text-lg tracking-wide shadow-xl transition-all ${
+              className={`w-full sm:w-auto min-w-[280px] px-10 py-4 rounded-2xl font-display text-lg tracking-wide shadow-md transition-all ${
                 previewUrl && !isAnalyzing
-                  ? "bg-[#9bb859] hover:bg-[#88a546] text-white hover:scale-105 active:scale-95 cursor-pointer"
-                  : "bg-white/10 text-slate-500 cursor-not-allowed border border-white/5"
+                  ? "bg-[#9bb859] hover:bg-[#88a546] text-white hover:scale-105 active:scale-95 shadow-olive-base/20 cursor-pointer"
+                  : "bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300/60"
               }`}
             >
               Mulai Analisis (Scan)
