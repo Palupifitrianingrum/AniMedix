@@ -479,7 +479,7 @@ export default function ScanPage() {
                   <span className="truncate max-w-[280px]">Foto terpilih: {selectedFile?.name || "Unggahan"}</span>
                 </div>
 
-                {/* Tombol Aksi: Ganti Foto & Hapus Foto */}
+                {/* Tombol Aksi: Ganti Foto */}
                 <div className="flex items-center gap-3 mt-1">
                   <button
                     type="button"
@@ -488,14 +488,6 @@ export default function ScanPage() {
                   >
                     <RefreshCw className="w-3.5 h-3.5 text-teal-accent" />
                     <span>Ganti Foto</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleRemovePhoto}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-red-500/20 hover:bg-red-500/35 text-red-300 border border-red-500/30 transition-all cursor-pointer"
-                  >
-                    <Trash2 className="w-3.5 h-3.5 text-red-400" />
-                    <span>Hapus Foto</span>
                   </button>
                 </div>
               </div>
