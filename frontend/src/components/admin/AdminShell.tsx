@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   ShieldCheck,
@@ -19,6 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 import { initials } from "@/lib/format";
 import { useAdminStore, adminName } from "@/store/useAdminStore";
+import { useAuthStore } from "@/store/useAuthStore";
 import { confirmDialog } from "@/store/useConfirmStore";
 import { toast } from "@/store/useToastStore";
 import { useMounted } from "@/hooks/useMounted";
@@ -36,11 +37,15 @@ const NAV = [
 
 function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout: authLogout } = useAuthStore();
   const pending = useAdminStore((s) => s.data.vets.filter((v) => v.status === "menunggu").length);
 
   const logout = async () => {
     if (await confirmDialog({ title: "Keluar dari portal admin?", confirmText: "Keluar", isDestructive: true })) {
-      toast("Anda telah keluar (demo)");
+      await authLogout();
+      toast("Anda telah keluar");
+      router.push("/login");
     }
   };
 

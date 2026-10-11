@@ -135,9 +135,11 @@ export default function MarketingNavbar() {
                   <Link href="/pengaturan" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 hover:bg-slate-50">
                     <Settings className="h-4 w-4 text-slate-400" /> Pengaturan
                   </Link>
-                  <Link href="/admin" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-teal-base hover:bg-teal-50">
-                    <ShieldCheck className="h-4 w-4 text-teal-base" /> Portal Admin
-                  </Link>
+                  {user?.role === "admin" && (
+                    <Link href="/admin" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-teal-base hover:bg-teal-50">
+                      <ShieldCheck className="h-4 w-4 text-teal-base" /> Portal Admin
+                    </Link>
+                  )}
                   <button
                     type="button"
                     onClick={() => {

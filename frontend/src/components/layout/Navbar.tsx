@@ -220,14 +220,16 @@ export default function Navbar({
                           <Settings className="w-4 h-4 text-slate-400" />
                           <span>Setting</span>
                         </Link>
-                        <Link
-                          href="/admin"
-                          onClick={() => setUserDropdownOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-teal-50 text-teal-base font-bold transition-colors"
-                        >
-                          <ShieldCheck className="w-4 h-4 text-teal-base" />
-                          <span>Portal Admin</span>
-                        </Link>
+                        {user?.role === "admin" && (
+                          <Link
+                            href="/admin"
+                            onClick={() => setUserDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-teal-50 text-teal-base font-bold transition-colors"
+                          >
+                            <ShieldCheck className="w-4 h-4 text-teal-base" />
+                            <span>Portal Admin</span>
+                          </Link>
+                        )}
                       </div>
 
                       <div className="pt-2 mt-2 border-t border-slate-100">

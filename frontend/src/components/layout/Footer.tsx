@@ -127,14 +127,6 @@ export default function Footer() {
                   Syarat & Ketentuan
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/admin"
-                  className="text-teal-accent/80 hover:text-white transition-colors flex items-center gap-1.5 pt-1"
-                >
-                  <span>🛡️</span> Portal Admin
-                </Link>
-              </li>
             </ul>
           </div>
         </div>

@@ -18,6 +18,17 @@ export const MOCK_USER: User = {
   nik: "3201012345670001",
 };
 
+// Mock User Administrator
+export const MOCK_ADMIN_USER: User = {
+  id: "usr-admin-001",
+  full_name: "Administrator AniMedix",
+  username: "admin",
+  email: "admin@animedix.id",
+  phone: "081199887766",
+  role: "admin",
+  address: "Kantor Operasional AniMedix, Jakarta",
+};
+
 /**
  * Auth Service Layer.
  * Saat backend temanmu sudah siap dengan endpoint Django,
@@ -42,16 +53,27 @@ export const authService = {
       throw new Error("Password minimal 4 karakter.");
     }
 
-    // Nanti ganti dengan:
-    // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/accounts/login/`, { ... })
+    const input = credentials.emailOrUsername.toLowerCase().trim();
+    const isAdmin =
+      input === "admin" ||
+      input === "admin@animedix.id" ||
+      input.startsWith("admin");
 
-    // Return mock response berhasil
+    if (isAdmin) {
+      return {
+        user: MOCK_ADMIN_USER,
+        token: "mock-jwt-token-animedix-admin-9999",
+      };
+    }
+
+    // Return mock response berhasil untuk peternak
     const loggedUser: User = {
       ...MOCK_USER,
       email: credentials.emailOrUsername.includes("@")
         ? credentials.emailOrUsername
         : `${credentials.emailOrUsername}@gmail.com`,
       username: credentials.emailOrUsername.split("@")[0],
+      role: "peternak",
     };
 
     return {
