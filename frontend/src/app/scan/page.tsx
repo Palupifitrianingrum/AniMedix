@@ -14,6 +14,7 @@ import {
   Loader2,
   Sparkles,
   RefreshCw,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui";
 import { useScanStore } from "@/store/useScanStore";
@@ -198,6 +199,16 @@ export default function ScanPage() {
     }
   };
 
+  // Hapus Foto Terpilih
+  const handleRemovePhoto = () => {
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    toast("Foto berhasil dihapus");
+  };
+
   // Jalankan Analisis untuk File Galeri
   const handleStartGalleryAnalysis = async () => {
     if (!previewUrl) {
@@ -293,15 +304,13 @@ export default function ScanPage() {
                 >
                   <RefreshCw className="w-4 h-4 mr-1.5" /> Coba Lagi
                 </Button>
-                <Button
-                  variant="outline"
-                  shape="rounded"
-                  size="sm"
+                <button
+                  type="button"
                   onClick={() => setMode("gallery")}
-                  className="text-white border-white/20"
+                  className="inline-flex items-center justify-center font-bold text-sm px-4 py-2 rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all cursor-pointer"
                 >
                   Gunakan Upload Galeri
-                </Button>
+                </button>
               </div>
             </div>
           )}
@@ -453,22 +462,41 @@ export default function ScanPage() {
                     alt="Preview ternak"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Button
-                      variant="outline"
-                      shape="rounded"
-                      size="sm"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="text-white border-white"
-                    >
-                      Ganti Foto
-                    </Button>
-                  </div>
+                  {/* Tombol Hapus Cepat (Icon X/Trash) di Pojok Kanan Atas */}
+                  <button
+                    type="button"
+                    onClick={handleRemovePhoto}
+                    className="absolute top-3 right-3 w-9 h-9 rounded-full bg-red-600/90 hover:bg-red-500 text-white flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95 cursor-pointer z-10"
+                    title="Hapus foto ini"
+                    aria-label="Hapus foto"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs text-teal-accent font-bold">
                   <Check className="w-4 h-4" />
-                  <span>Foto berhasil dipilih ({selectedFile?.name})</span>
+                  <span className="truncate max-w-[280px]">Foto terpilih: {selectedFile?.name || "Unggahan"}</span>
+                </div>
+
+                {/* Tombol Aksi: Ganti Foto & Hapus Foto */}
+                <div className="flex items-center gap-3 mt-1">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all cursor-pointer"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5 text-teal-accent" />
+                    <span>Ganti Foto</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleRemovePhoto}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-red-500/20 hover:bg-red-500/35 text-red-300 border border-red-500/30 transition-all cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                    <span>Hapus Foto</span>
+                  </button>
                 </div>
               </div>
             )}

@@ -90,18 +90,17 @@ export default function HasilScanPage() {
 
         {/* Action Top Buttons */}
         <div className="flex items-center gap-2.5">
-          <Button
-            variant="outline"
-            shape="rounded"
-            size="sm"
+          <button
+            type="button"
             onClick={() => {
               resetCurrentScan();
               router.push("/scan");
             }}
-            className="text-white border-white/20 hover:bg-white/10"
+            className="inline-flex items-center justify-center font-bold text-sm px-4 py-2 gap-1.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/25 transition-all shadow-sm active:scale-[0.98] cursor-pointer"
           >
-            <RefreshCw className="w-4 h-4 mr-1.5" /> Scan Ulang
-          </Button>
+            <RefreshCw className="w-4 h-4 text-teal-accent" />
+            <span>Scan Ulang</span>
+          </button>
           <Link href="/dokter">
             <Button
               variant="teal"
