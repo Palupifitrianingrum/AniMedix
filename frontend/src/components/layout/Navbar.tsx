@@ -18,6 +18,7 @@ import {
   FolderKanban,
   ClipboardList,
   Settings,
+  ShieldCheck,
 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { ConfirmModal } from "@/components/ui/Modal";
@@ -218,6 +219,14 @@ export default function Navbar({
                         >
                           <Settings className="w-4 h-4 text-slate-400" />
                           <span>Setting</span>
+                        </Link>
+                        <Link
+                          href="/admin"
+                          onClick={() => setUserDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-teal-50 text-teal-base font-bold transition-colors"
+                        >
+                          <ShieldCheck className="w-4 h-4 text-teal-base" />
+                          <span>Portal Admin</span>
                         </Link>
                       </div>
 
