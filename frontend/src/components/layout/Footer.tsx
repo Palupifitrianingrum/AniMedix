@@ -97,7 +97,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm font-body">
               <li>
                 <Link
-                  href="/#blog"
+                  href="/blog"
                   className="hover:text-white transition-colors"
                 >
                   Blog Edukasi Peternakan

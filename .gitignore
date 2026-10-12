@@ -22,3 +22,5 @@ db.sqlite3
 media/
 
 .github
+node_modules/
+.next/

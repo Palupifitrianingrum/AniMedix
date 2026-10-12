@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Navbar, Footer, MobileNav } from "@/components/layout";
 import { Button, Badge, Avatar } from "@/components/ui";
+import ArticleCard from "@/components/blog/ArticleCard";
+import { getFeaturedArticles } from "@/data/blog";
 import {
   Camera,
   Stethoscope,
@@ -14,9 +16,6 @@ import {
   CheckCircle2,
   ChevronDown,
   Star,
-  HeartPulse,
-  UtensilsCrossed,
-  ShieldCheck,
   UserPlus,
   BookOpen,
 } from "lucide-react";
@@ -47,38 +46,7 @@ export default function LandingPage() {
     },
   ];
 
-  const articles = [
-    {
-      category: "Kesehatan Ternak",
-      badgeVariant: "olive" as const,
-      icon: <HeartPulse className="w-12 h-12 text-olive-dark/70 stroke-[1.5]" />,
-      bgGradient: "from-olive-wash to-[#e8efe0]",
-      date: "28 September 2026 • 5 Menit Baca",
-      title: "Gejala Awal Penyakit Mulut & Kuku (PMK) pada Sapi Potong",
-      desc: "Langkah tanggap darurat yang wajib dilakukan peternak saat mendapati hewan mengeluarkan busa berlebih dan luka lepuh di kuku.",
-      actionText: "Pelajari Penanganan →",
-    },
-    {
-      category: "Nutrisi & Pakan",
-      badgeVariant: "teal" as const,
-      icon: <UtensilsCrossed className="w-12 h-12 text-teal-base/70 stroke-[1.5]" />,
-      bgGradient: "from-teal-tint to-[#d7f1ee]",
-      date: "22 September 2026 • 4 Menit Baca",
-      title: "Formula Silase Jagung & Pakan Fermentasi Kambing Etawa",
-      desc: "Cara praktis memproduksi konsentrat tinggi protein dengan bahan baku lokal murah untuk memacu bobot kambing perah dan potong.",
-      actionText: "Lihat Resep Pakan →",
-    },
-    {
-      category: "Jadwal Vaksinasi",
-      badgeVariant: "warning" as const,
-      icon: <ShieldCheck className="w-12 h-12 text-amber-700/70 stroke-[1.5]" />,
-      bgGradient: "from-[#fff7ed] to-[#fed7aa]/50",
-      date: "15 September 2026 • 6 Menit Baca",
-      title: "Panduan Imunisasi Berkala Kawanan Domba & Kambing",
-      desc: "Tabel lengkap waktu pemberian vaksin antraks, enterotoxemia, dan vitamin penunjang dari anakan (cempe) hingga usia kawin.",
-      actionText: "Unduh Tabel Vaksin →",
-    },
-  ];
+  const articles = getFeaturedArticles();
 
   const testimonials = [
     {
@@ -460,7 +428,7 @@ export default function LandingPage() {
             </div>
 
             <Link
-              href="#blog"
+              href="/blog"
               className="inline-flex items-center gap-1.5 text-sm font-bold font-body text-teal-base hover:text-teal-dark transition-colors"
             >
               <span>Baca Selengkapnya</span>
@@ -469,42 +437,8 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {articles.map((item, idx) => (
-              <div
-                key={idx}
-                className="bg-surface-bg border border-border-hairline rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col group"
-              >
-                {/* Visual Header */}
-                <div
-                  className={`w-full h-44 bg-gradient-to-br ${item.bgGradient} flex items-center justify-center relative`}
-                >
-                  {item.icon}
-                  <div className="absolute top-4 left-4">
-                    <Badge variant={item.badgeVariant} size="sm" shape="pill">
-                      {item.category}
-                    </Badge>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 flex flex-col flex-1 gap-2.5">
-                  <span className="text-xs font-body font-semibold text-slate-400">
-                    {item.date}
-                  </span>
-                  <h3 className="font-display text-xl text-teal-dark group-hover:text-teal-base transition-colors leading-snug">
-                    {item.title}
-                  </h3>
-                  <p className="font-body text-slate-600 text-sm leading-relaxed mb-4">
-                    {item.desc}
-                  </p>
-
-                  <div className="mt-auto pt-2 border-t border-slate-200/60">
-                    <span className="text-xs font-bold font-body text-teal-base group-hover:text-teal-dark transition-colors">
-                      {item.actionText}
-                    </span>
-                  </div>
-                </div>
-              </div>
+            {articles.map((item) => (
+              <ArticleCard key={item.slug} article={item} />
             ))}
           </div>
         </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { MessageCircle, MessagesSquare } from "lucide-react";
+import Link from "next/link";
+import { ChevronRight, MessageCircle, MessagesSquare } from "lucide-react";
 import { Avatar, Badge, Button, PageHeader, Select } from "@/components/ui";
 import { COMMUNITY_TAGS } from "@/data/community";
 import { useCommunityStore } from "@/store/useCommunityStore";
@@ -15,7 +16,7 @@ import { cn } from "@/lib/utils";
 
 export default function KomunitasPage() {
   const mounted = useMounted();
-  const { posts, addPost } = useCommunityStore();
+  const { posts, comments, addPost } = useCommunityStore();
   const user = useAuthStore((s) => s.user);
   const [text, setText] = React.useState("");
   const [tag, setTag] = React.useState("");
@@ -70,26 +71,39 @@ export default function KomunitasPage() {
             </div>
           </form>
 
-          {/* Daftar postingan */}
-          {visible.map((p) => (
-            <article key={p.id} className="flex gap-4 rounded-3xl border border-border-hairline bg-white p-6">
-              <Avatar name={p.authorInitials} size="lg" colorPreset="neutral" className="rounded-2xl" />
-              <div className="flex min-w-0 flex-1 flex-col gap-2">
-                <div className="flex flex-wrap items-center gap-2">
-                  <b className="font-display text-lg text-teal-dark">{p.authorName}</b>
-                  <Badge variant="olive" size="sm">Peternak</Badge>
-                  <small className="text-xs font-bold text-slate-400">{p.time}</small>
-                </div>
-                <p className="text-base text-teal-dark">{p.text}</p>
-                <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-slate-500">
-                  {p.tag && <Badge variant="teal" size="sm">{p.tag}</Badge>}
-                  <span className="inline-flex items-center gap-1">
-                    <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" /> {p.comments} komentar
-                  </span>
-                </div>
-              </div>
-            </article>
-          ))}
+          {/* Daftar postingan - tiap kartu membuka halaman diskusi & komentar */}
+          {visible.map((p) => {
+            const count = comments[p.id]?.length ?? 0;
+            return (
+              <Link
+                key={p.id}
+                href={`/komunitas/${p.id}`}
+                aria-label={`Buka diskusi dari ${p.authorName}: ${p.text}`}
+                className="group block rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-accent focus-visible:ring-offset-2"
+              >
+                <article className="flex gap-4 rounded-3xl border border-border-hairline bg-white p-6 transition-all group-hover:border-teal-accent/50 group-hover:shadow-[0_8px_24px_-8px_rgba(19,53,57,0.15)]">
+                  <Avatar name={p.authorInitials} size="lg" colorPreset="neutral" className="rounded-2xl" />
+                  <div className="flex min-w-0 flex-1 flex-col gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <b className="font-display text-lg text-teal-dark">{p.authorName}</b>
+                      <Badge variant="olive" size="sm">Peternak</Badge>
+                      <small className="text-xs font-bold text-slate-400">{p.time}</small>
+                    </div>
+                    <p className="text-base text-teal-dark">{p.text}</p>
+                    <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-slate-500">
+                      {p.tag && <Badge variant="teal" size="sm">{p.tag}</Badge>}
+                      <span className="inline-flex items-center gap-1">
+                        <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" /> {count} komentar
+                      </span>
+                      <span className="ml-auto inline-flex items-center gap-0.5 text-teal-base transition-transform group-hover:translate-x-0.5">
+                        Lihat diskusi <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                      </span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            );
+          })}
 
           {mounted && !visible.length && (
             <div className="flex flex-col items-center gap-2 rounded-3xl border border-dashed border-border-hairline bg-surface-bg px-6 py-12 text-center">

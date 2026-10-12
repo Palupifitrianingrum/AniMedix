@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { ConfirmModal } from "@/components/ui/Modal";
+import { useMounted } from "@/hooks/useMounted";
 
 export interface NavbarProps {
   isLoggedIn?: boolean;
@@ -44,8 +45,11 @@ export default function Navbar({
 
   const { isLoggedIn: storeIsLoggedIn, user, logout } = useAuthStore();
 
+  // Status login tersimpan di localStorage, jadi baru dipakai setelah di browser
+  // supaya HTML server dan browser tidak berbeda.
+  const mounted = useMounted();
   const isLoggedIn =
-    propIsLoggedIn !== undefined ? propIsLoggedIn : storeIsLoggedIn;
+    propIsLoggedIn !== undefined ? propIsLoggedIn : mounted && storeIsLoggedIn;
   const userName =
     propUserName || (user?.full_name ? user.full_name.split(" ")[0] : "Prabowo");
   const fullName = user?.full_name || "Prabowo Subianto";
@@ -79,21 +83,25 @@ export default function Navbar({
     {
       label: "Tanya Dokter",
       href: "/dokter",
+      match: ["/dokter", "/konsultasi"],
       icon: <Stethoscope className="w-4 h-4 text-teal-base stroke-[2.2]" />,
     },
     {
       label: "Klinik Terdekat",
       href: "/klinik",
+      match: ["/klinik"],
       icon: <MapPin className="w-4 h-4 text-olive-base stroke-[2.2]" />,
     },
     {
       label: "Komunitas",
       href: "/komunitas",
+      match: ["/komunitas"],
       icon: <Users className="w-4 h-4 text-coral-accent stroke-[2.2]" />,
     },
     {
       label: "Blog Edukasi",
-      href: "/#blog",
+      href: "/blog",
+      match: ["/blog"],
       icon: <BookOpen className="w-4 h-4 text-slate-500 stroke-[2]" />,
     },
   ];
@@ -125,14 +133,15 @@ export default function Navbar({
             {/* Middle: Desktop Navigation Links */}
             <div className="hidden lg:flex items-center gap-8">
               {navLinks.map((link) => {
-                const isActive = pathname === link.href;
+                const isActive = link.match.some((m) => pathname?.startsWith(m));
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
+                    aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "flex items-center gap-2 text-sm font-body font-bold transition-colors hover:text-teal-base py-1",
-                      isActive ? "text-teal-base" : "text-teal-dark"
+                      "flex items-center gap-2 text-sm font-body font-bold transition-colors hover:text-teal-base py-1 border-b-2",
+                      isActive ? "text-teal-base border-teal-accent" : "text-teal-dark border-transparent"
                     )}
                   >
                     {link.icon}
@@ -294,7 +303,11 @@ export default function Navbar({
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-base font-body font-bold text-teal-dark"
+                  aria-current={link.match.some((m) => pathname?.startsWith(m)) ? "page" : undefined}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-base font-body font-bold",
+                    link.match.some((m) => pathname?.startsWith(m)) ? "bg-teal-tint text-teal-base" : "text-teal-dark"
+                  )}
                 >
                   {link.icon}
                   <span>{link.label}</span>
